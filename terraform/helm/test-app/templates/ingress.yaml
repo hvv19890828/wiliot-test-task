@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  name: test-ing
+  namespace: default
+spec:
+  rules:
+  - host: hvv19890828.ddns.net
+    http:
+      paths:
+      - backend:
+          service:
+            name: test-front-clusterip-svc
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - hvv19890828.ddns.net
+    secretName: hvv19890828-tls-secret

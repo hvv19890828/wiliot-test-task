@@ -18,7 +18,9 @@ RUN apt-get update -y && \
     apt-get install -y git && \
     git clone https://github.com/hvv19890828/wiliot-test-task.git && \
     mkdir -p /wiliot && \
-    cp wiliot-test-task/app/templates /wiliot
+    cp -r wiliot-test-task/app/templates /wiliot && \
+    rm -r wiliot-test-task && \
+    apt-get purge -y git
 
 WORKDIR /wiliot
 COPY --from=build /wiliot-test-task/app/dist/app .
