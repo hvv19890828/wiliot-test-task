@@ -1,7 +1,7 @@
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
 
-  name                 = "test-vpc"
+  name                 = "${var.cluster_name}-vpc"
   cidr                 = "10.4.0.0/16"
   azs                  = data.aws_availability_zones.available.names
   private_subnets      = ["10.4.1.0/24", "10.4.2.0/24", "10.4.3.0/24"]
@@ -21,12 +21,11 @@ module "vpc" {
   }
 }
 
-resource "aws_security_group" "all" {
-  name_prefix = "worker_group_mgmt_one"
+resource "aws_security_group" "common" {
+  name_prefix = "common"
   vpc_id      = module.vpc.vpc_id
 
 ingress {
-    description      = "TLS from VPC"
     from_port        = 8080
     to_port          = 8080
     protocol         = "tcp"

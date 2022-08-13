@@ -2,14 +2,14 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: test-front
-  name: test-front-clusterip-svc
+    app: test-app
+  name: test-app-clusterip-svc
   namespace: default
 spec:
   ports:
-  - port: 80
+  - port: 8080
     protocol: TCP
-    targetPort: 80
+    targetPort: 8080
   selector:
-    app: test-front
+    app: test-app
   type: ClusterIP

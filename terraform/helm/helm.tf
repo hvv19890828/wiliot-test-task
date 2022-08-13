@@ -1,6 +1,6 @@
 resource "helm_release" "toffie" {
   name  = var.appname
-  chart = "../test-front/"
+  chart = "../../helm/test-app/"
   values = [templatefile("${path.module}/tmplts/values.yaml.tpl", {
     commonlabel = var.appname
   })]

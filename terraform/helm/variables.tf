@@ -1,4 +1,4 @@
 variable "appname" {
   description = "App name"
-  default     = "toffie"
+  default     = "test-app"
 }
