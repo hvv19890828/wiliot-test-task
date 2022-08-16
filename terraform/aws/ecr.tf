@@ -1,5 +1,5 @@
-resource "aws_ecr_repository" "hvv19890828" {
-  name                 = "hvv19890828"
+resource "aws_ecr_repository" "wiliot-test-app" {
+  name                 = "wiliot-test-app"
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
