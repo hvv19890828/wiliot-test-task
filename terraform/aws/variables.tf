@@ -54,6 +54,20 @@ variable "aws_vpc_cidr" {
 # Networking
 
 
+# Tags
+
+variable "aws_tags_group_level" {
+  description = "A map group of tags to add to all resources"
+  type        = map(string)
+}
+
+variable "aws_tags_cluster_level" {
+  description = "A map of cluster tags to add to all resources"
+  type        = map(string)
+}
+
+# Tags
+
 
 
 

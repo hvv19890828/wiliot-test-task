@@ -26,25 +26,6 @@ module "eks" {
     resources        = ["secrets"]
   }]
 
-  cluster_addons = {
-    coredns = {
-      addon_version     = "v1.8.7-eksbuild.1"
-      resolve_conflicts = "OVERWRITE"
-    }
-    kube-proxy = {
-      addon_version     = "v1.22.11-eksbuild.2"
-      resolve_conflicts = "OVERWRITE"
-    }
-    vpc-cni = {
-      addon_version     = "v1.11.2-eksbuild.1"
-      resolve_conflicts = "OVERWRITE"
-    }
-    aws-ebs-csi-driver = {
-      addon_version     = "v1.10.0-eksbuild.1"
-      resolve_conflicts = "OVERWRITE"
-    }
-  }
-  
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.private_subnets
 
@@ -52,7 +33,6 @@ module "eks" {
   node_security_group_id = aws_security_group.common.id
   create_cluster_security_group = false
   cluster_security_group_id = aws_security_group.common.id
-  enable_irsa = true
 
   manage_aws_auth_configmap = true
   aws_auth_roles            = var.aws_auth_roles
