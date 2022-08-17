@@ -6,18 +6,20 @@ resource "aws_kms_key" "eks_kms_key" {
   enable_key_rotation     = true
 }
 
+
 resource "aws_kms_alias" "eks" {
   name          = "alias/${var.cluster_name}"
   target_key_id = aws_kms_key.eks_kms_key.key_id
 }
+
 
 # EKS Cluster
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 18.26"
 
-  cluster_name                    = var.cluster_name
-  cluster_version                 = var.cluster_version
+  cluster_name    = var.cluster_name
+  cluster_version = var.cluster_version
 
   # EKS Addons
   cluster_addons = {
@@ -29,7 +31,7 @@ module "eks" {
       resolve_conflicts = "OVERWRITE"
     }
   }
-    
+
 
   cluster_encryption_config = [{
     provider_key_arn = aws_kms_key.eks_kms_key.arn
@@ -39,10 +41,23 @@ module "eks" {
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.private_subnets
 
-  create_node_security_group = false
-  node_security_group_id = aws_security_group.common.id
+  create_node_security_group    = false
+  node_security_group_id        = aws_security_group.common.id
   create_cluster_security_group = false
-  cluster_security_group_id = aws_security_group.common.id
+  cluster_security_group_id     = aws_security_group.common.id
+
+  # AWS-Auth
+  manage_aws_auth_configmap = true
+  aws_auth_users = [
+    {
+      userarn  = "arn:aws:iam::634796390849:root"
+      username = "hvvincorp"
+      groups   = ["system:masters"]
+    },
+  ]
+  aws_auth_accounts = [
+    "634796390849",
+  ]
 
   eks_managed_node_groups = {
     default = {

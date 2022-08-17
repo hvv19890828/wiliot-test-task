@@ -16,12 +16,12 @@ output "wiliot-eks-endpoint" {
 output "wiliot-eks-auth-token" {
   description = "Wiliot EKS auth-token"
   value       = data.aws_eks_cluster_auth.eks-cluster.token
-  sensitive = true
+  sensitive   = true
 }
 
 output "wiliot-eks-cert" {
   description = "Wiliot EKS cert"
   value       = data.aws_eks_cluster.eks-cluster.certificate_authority[0].data
-  sensitive = true
+  sensitive   = true
 }
 

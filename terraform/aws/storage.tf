@@ -4,7 +4,7 @@ resource "aws_s3_bucket" "wiliot-tf-back-s3" {
   acl    = "private"
 
   tags = {
-    Name        = random_id.bucket-id.hex
+    Name = random_id.bucket-id.hex
   }
 }
 

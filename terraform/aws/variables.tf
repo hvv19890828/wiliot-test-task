@@ -2,7 +2,7 @@
 
 variable "wiliot-tf-back-s3" {
   description = "Wiliot terraform S3 backend bucket name"
-  default = "wiliot-tf-back"
+  default     = "wiliot-tf-back"
 }
 
 # Storage
@@ -27,19 +27,19 @@ variable "cluster_version" {
 variable "aws_private_subnets" {
   description = "List of private subnets for the worker nodes"
   type        = list(string)
-  default = ["172.16.0.0/24", "172.16.1.0/24", "172.16.2.0/24"]
+  default     = ["172.16.0.0/24", "172.16.1.0/24", "172.16.2.0/24"]
 }
 
 variable "aws_public_subnets" {
   description = "List of public subnets for the worker nodes"
   type        = list(string)
-  default = ["172.16.3.0/24", "172.16.4.0/24", "172.16.5.0/24"]
+  default     = ["172.16.3.0/24", "172.16.4.0/24", "172.16.5.0/24"]
 }
 
 variable "aws_vpc_cidr" {
   description = "VPC CIDR"
   type        = string
-  default = "172.16.0.0/21"
+  default     = "172.16.0.0/21"
 }
 
 # Networking
