@@ -1,6 +1,5 @@
-data "aws_ecr_image" "wiliot-test-app" {
-  repository_name = "wiliot-test-app"
-  image_tag       = "latest"
+data "aws_ecr_repository" "wiliot-test-app" {
+  name = "wiliot-test-app"
 }
 
 data "aws_availability_zones" "available" {

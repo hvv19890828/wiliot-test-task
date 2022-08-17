@@ -2,7 +2,7 @@ module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "3.14.2"
 
-  name = "${var.cluster_name}-vpc"
+  name = "${var.cluster_name}"
   cidr = var.aws_vpc_cidr
 
   azs             = data.aws_availability_zones.available.names
@@ -12,6 +12,14 @@ module "vpc" {
   enable_nat_gateway   = true
   single_nat_gateway   = true
   enable_dns_hostnames = true
+  one_nat_gateway_per_az = false
+
+  manage_default_network_acl    = true
+  default_network_acl_tags      = { Name = "${var.cluster_name}" }
+  manage_default_route_table    = true
+  default_route_table_tags      = { Name = "${var.cluster_name}" }
+  manage_default_security_group = true
+  default_security_group_tags   = { Name = "${var.cluster_name}" }
 
   public_subnet_tags = {
     "kubernetes.io/cluster/${var.cluster_name}" = "shared"

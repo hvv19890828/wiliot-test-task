@@ -5,7 +5,7 @@ metadata:
   namespace: default
   labels:
     app: test-app
-#    commonName: {{ .Values.commonLabel }}
+    commonName: {{ .Values.commonLabel }}
 spec:
   replicas: 1
   selector:
@@ -22,5 +22,5 @@ spec:
         app: test-app
     spec:
       containers:
-      - image: hvv19890828/wiliot-test-task:v1.0
+      - image: {{ .Values.image }}
         name: nginx

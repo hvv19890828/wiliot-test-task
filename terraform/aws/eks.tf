@@ -14,12 +14,22 @@ resource "aws_kms_alias" "eks" {
 # EKS Cluster
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "18.26.6"
+  version = "~> 18.26"
 
   cluster_name                    = var.cluster_name
   cluster_version                 = var.cluster_version
-  cluster_endpoint_private_access = true
-  cluster_endpoint_public_access  = true
+
+  # EKS Addons
+  cluster_addons = {
+    coredns = {
+      resolve_conflicts = "OVERWRITE"
+    }
+    kube-proxy = {}
+    vpc-cni = {
+      resolve_conflicts = "OVERWRITE"
+    }
+  }
+    
 
   cluster_encryption_config = [{
     provider_key_arn = aws_kms_key.eks_kms_key.arn
@@ -34,13 +44,28 @@ module "eks" {
   create_cluster_security_group = false
   cluster_security_group_id = aws_security_group.common.id
 
-  manage_aws_auth_configmap = true
-  aws_auth_roles            = var.aws_auth_roles
+  eks_managed_node_groups = {
+    default = {
+      # By default, the module creates a launch template to ensure tags are propagated to instances, etc.,
+      # so we need to disable it to use the default template provided by the AWS EKS managed node group service
+      create_launch_template = false
+      launch_template_name   = ""
 
-  eks_managed_node_group_defaults = {
-   iam_role_additional_policies = ["arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"]
+      # list of pods per instance type: https://github.com/awslabs/amazon-eks-ami/blob/master/files/eni-max-pods.txt
+      # or run: kubectl get node -o yaml | grep pods
+      instance_types = ["t2.small"]
+      disk_size      = 50
+
+      # Is deprecated and will be removed in v19.x
+      create_security_group = false
+
+      min_size     = 1
+      max_size     = 3
+      desired_size = 1
+
+      update_config = {
+        max_unavailable_percentage = 33
+      }
+    }
   }
-
-  eks_managed_node_groups = var.eks_managed_node_groups
 }
-

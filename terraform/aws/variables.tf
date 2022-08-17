@@ -14,21 +14,9 @@ variable "cluster_name" {
   default = "wiliot-test-eks"
 }
 
-variable "aws_auth_roles" {
-  description = "Additional IAM roles to add to the aws-auth ConfigMap"
-  type        = list(any)
-  default     = []
-}
-
-
 variable "cluster_version" {
   description = "Desired kubernetes version. If you do not specify a value, the latest available version is used"
   type        = string
-}
-
-variable "eks_managed_node_groups" {
-  description = "Map of maps of eks_node_groups to create"
-  type        = any
 }
 
 # EKS
@@ -39,16 +27,19 @@ variable "eks_managed_node_groups" {
 variable "aws_private_subnets" {
   description = "List of private subnets for the worker nodes"
   type        = list(string)
+  default = ["172.16.0.0/24", "172.16.1.0/24", "172.16.2.0/24"]
 }
 
 variable "aws_public_subnets" {
   description = "List of public subnets for the worker nodes"
   type        = list(string)
+  default = ["172.16.3.0/24", "172.16.4.0/24", "172.16.5.0/24"]
 }
 
 variable "aws_vpc_cidr" {
   description = "VPC CIDR"
   type        = string
+  default = "172.16.0.0/21"
 }
 
 # Networking
