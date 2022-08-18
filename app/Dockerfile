@@ -1,4 +1,4 @@
-FROM ubuntu:xenial-20210804 AS build
+FROM ubuntu:jammy-20220801 AS build
 RUN apt-get update -y && \
     apt-get install -y --reinstall python-pkg-resources && \
     apt-get install -y build-essential python-dev-is-python3
@@ -13,7 +13,7 @@ RUN apt-get install -y git && \
     pyinstaller app.py
 
 # Run-time image build
-FROM ubuntu:xenial-20210804
+FROM ubuntu:jammy-20220801
 RUN apt-get update -y && \
     apt-get install -y git && \
     git clone https://github.com/hvv19890828/wiliot-test-task.git && \
